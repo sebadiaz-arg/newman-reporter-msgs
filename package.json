@@ -1,0 +1,21 @@
+{
+  "name": "newman-reporter-msgs",
+  "version": "1.0.0",
+  "description": "Dumps raw http messages to stdout",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "newman",
+    "reporter",
+    "msgs",
+    "postman"
+  ],
+  "author": "roberto.mierescandon@telefonica.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robertomier/newman-reporter-msgs.git"
+   }
+}
