@@ -53,31 +53,27 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
       res_body = rawBody.toString();
     }
 
+    str += line("========================")
     str += line(req_first_line)
     req_headers.forEach(h => {
       str += line(h.key + ": " + h.value)
     });
 
     if (req_body) {
-      str += line()
       str += line(req_body)
     }
 
-    str += line()
+    str += line("------------------------")
     str += line(res_first_line)
     res_headers.forEach(h => {
       str += line(h.key + ": " + h.value)
     });
 
     if (res_body) {
-      str += line()
       str += line(res_body)
     }
 
-    str += line()
-    str += line("-----------------------------------------------------------------")
-    str += line()
-
+    str += line("************************")
     console.log(str)
   })
 }
