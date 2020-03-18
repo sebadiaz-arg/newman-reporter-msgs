@@ -53,6 +53,7 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
       res_body = rawBody.toString();
     }
 
+    str += line("Test case: " + args.item.name)
     str += line("========================")
     str += line(req_first_line)
     req_headers.forEach(h => {
@@ -77,5 +78,3 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
     console.log(str)
   })
 }
-
-
