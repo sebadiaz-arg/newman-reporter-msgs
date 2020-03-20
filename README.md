@@ -34,3 +34,10 @@ The resultant http messages exchanges will be shown in console
 ### Options
 You can use the flag *--reporter-msgs-native* to use the OS native 
 line break instead of the default CRLF (\r\n)
+
+## Testing
+
+Execute tests by running
+```sh
+npm test
+```
