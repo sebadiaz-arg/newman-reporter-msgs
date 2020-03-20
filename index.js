@@ -47,7 +47,7 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
 
     let res_first_line = "HTTP/1.1 " + args.response.code + " " + args.response.status
     let res_headers = args.response.headers.members
-    let res_body = ""
+    let res_body = args.response.stream;
     if (req_method === 'POST' || req_method === 'PUT' || req_method === 'PATCH') {
       let rawBody = args.response.stream;
       res_body = rawBody.toString();
