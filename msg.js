@@ -55,13 +55,13 @@ function stringifyRequest(req) {
   return str
 }
 
-function stringifyResponse(req_method, res, n) {
+function stringifyResponse(res) {
   let res_first_line = "HTTP/1.1 " + res.code + " " + res.status
   let res_headers = res.headers.members
+  
   let res_body = res.stream
-  if (req_method === 'POST' || req_method === 'PUT' || req_method === 'PATCH') {
-    let rawBody = res.stream;
-    res_body = rawBody.toString();
+  if (res_body) {
+    res_body = res_body.toString()
   }
 
   let str = line(res_first_line)
