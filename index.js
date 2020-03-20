@@ -1,6 +1,8 @@
 os = require('os')
 
-var CRLF = '\r\n';
+const CRLF = '\r\n';
+const REP_TIMES = 30
+
 
 function line(what) {
   if (!what) {
@@ -9,13 +11,20 @@ function line(what) {
   return what + CRLF
 }
 
+function expand(ch, n) {
+  if (!n || n < REP_TIMES) {
+    n = REP_TIMES
+  }
+  return ch.repeat(n)
+}
+
 /**
- * Reporter that outputs logs to Google Drive Spreadsheet.
+ * Reporter that outputs logs to stdout.
  *
  * @param {Object} newman - The collection run object, with event hooks for reporting run details.
  * @param {Object} reporterOptions - The set of options received by this reporter by cli argument
  * @param {Object} options - A set of collection run options.
- * @param {String=} options.native - Optional flag to use native crlf
+ * @param {boolean} reporterOptions.native - Optional flag to use native crlf
  * @returns {*}
  */
 module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
@@ -39,6 +48,9 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
 
     let req_first_line = req_method + " /" + req_path + " HTTP/1.1"
 
+    // Used to wrap the line with the proper number of cosmetic chars
+    let n = req_first_line.length
+
     let req_headers = args.request.headers.members
     let req_body = ""
     if (args.request.body) {
@@ -54,27 +66,29 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
     }
 
     str += line("Test case: " + args.item.name)
-    str += line("========================")
+    str += line(expand("=", n))
     str += line(req_first_line)
     req_headers.forEach(h => {
       str += line(h.key + ": " + h.value)
     });
 
     if (req_body) {
+      str += line()
       str += line(req_body)
     }
 
-    str += line("------------------------")
+    str += line(expand("-", n))
     str += line(res_first_line)
     res_headers.forEach(h => {
       str += line(h.key + ": " + h.value)
     });
 
     if (res_body) {
+      str += line()
       str += line(res_body)
     }
 
-    str += line("************************")
+    str += line(expand("*", n))
     console.log(str)
   })
 }
