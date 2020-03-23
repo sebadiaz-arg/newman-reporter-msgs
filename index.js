@@ -36,10 +36,6 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
 
   newman.on('request', (err, args) => {
     if (err) return
-
-    // TODO TRACE
-    console.log(args)
-
     // It is needed to first dump the request before separator to obtain the correct
     // length of the first request line
     req = msg.stringifyRequest(args.request)
