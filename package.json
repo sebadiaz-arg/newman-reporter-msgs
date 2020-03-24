@@ -1,6 +1,6 @@
 {
   "name": "newman-reporter-msgs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dumps raw http messages to stdout",
   "main": "index.js",
   "scripts": {
