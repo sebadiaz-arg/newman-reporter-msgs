@@ -32,11 +32,27 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
     if (reporterOptions.native) {
       CRLF = os.EOL
     }
+
+    if (options.folder) {
+      let str = "ItemGroup: " + options.folder
+      console.log(str)
+    }
   })
+
+  newman.on('beforeItem', (err, args) => {
+    let str = "Test: " + args.item.name
+    console.log(str)
+  })
+
+  newman.on('beforeIteration', (err, args) => {
+    if (options.iterationData.length === 0) return
+    let str = "Profile: " + options.iterationData[0].PhoneNumber
+    console.log(str)
+  })
+
   newman.on('request', (err, args) => {
     if (err) return
 
-    let str = ""
     let req_method = args.request.method
 
     let req_host = args.request.url.host.join(".")
@@ -65,8 +81,7 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
       res_body = rawBody.toString();
     }
 
-    str += line("Test case: " + args.item.name)
-    str += line(expand("=", n))
+    let str = line(expand("=", n))
     str += line(req_first_line)
     req_headers.forEach(h => {
       str += line(h.key + ": " + h.value)
