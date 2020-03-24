@@ -1,10 +1,10 @@
 {
   "name": "newman-reporter-msgs",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Dumps raw http messages to stdout",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [
     "newman",
@@ -17,5 +17,8 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/robertomier/newman-reporter-msgs.git"
-   }
+  },
+  "devDependencies": {
+    "mocha": "^7.1.1"
+  }
 }
