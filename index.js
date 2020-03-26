@@ -29,7 +29,7 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
   })
 
   newman.on('beforeIteration', (err, args) => {
-    if (options.iterationData.length === 0) return
+    if (! options.iterationData || options.iterationData.length === 0) return
     let str = "Profile: " + options.iterationData[0].PhoneNumber
     console.log(str)
   })
