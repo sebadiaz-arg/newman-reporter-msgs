@@ -36,6 +36,10 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
 
   newman.on('request', (err, args) => {
     if (err) return
+    // Skip requests not having a Test name. They could be secondary requests happening
+    // within a test, but are not interesting for tracing
+    if (args.item && !args.item.name) return
+
     // It is needed to first dump the request before separator to obtain the correct
     // length of the first request line
     req = msg.stringifyRequest(args.request)
