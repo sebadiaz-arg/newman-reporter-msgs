@@ -1,4 +1,6 @@
 const REP_TIMES = 30
+const END_OF_SECTION_MARK = "-"
+const END_OF_TEST_MARK = "="
 
 var crlf = '\r\n';
 var n;
@@ -18,7 +20,15 @@ function line(what) {
 }
 
 function separator(ch) {
-  return line(expand(ch))
+  return expand(ch)
+}
+
+function end_of_section() {
+  return separator(END_OF_SECTION_MARK)
+}
+
+function end_of_test() {
+  return separator(END_OF_TEST_MARK)
 }
 
 function stringifyRequest(req) {
@@ -78,6 +88,8 @@ function stringifyResponse(res) {
 }
 
 exports.separator = separator
+exports.end_of_section = end_of_section
+exports.end_of_test = end_of_test
 exports.stringifyRequest = stringifyRequest
 exports.stringifyResponse = stringifyResponse
 exports.crlf = crlf
