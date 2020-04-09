@@ -11,7 +11,14 @@ msg = require('./msg')
  * @returns {*}
  */
 module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
+  // Hols the profile during the iteration
+  var profile = ''
+
   newman.on('start', (err, args) => {
+    if (err) {
+      throw new Error('Error starting reporter : ' + err)
+    }
+
     if (reporterOptions.native) {
       msg.crlf = os.EOL
     }
@@ -23,18 +30,26 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
   })
 
   newman.on('beforeItem', (err, args) => {
-    let str = "Test: " + args.item.name
+    let str = 'Profile: ' + profile + msg.crlf
+    str += 'Test: ' + args.item.name
     console.log(str)
   })
 
   newman.on('beforeIteration', (err, args) => {
-    if (! options.iterationData || options.iterationData.length === 0) return
-    let str = "Profile: " + options.iterationData[0].PhoneNumber
-    console.log(str)
+    if (!options.iterationData || options.iterationData.length === 0) {
+      throw new Error('Could not find iterationData')
+    }
+    if (!options.iterationData[0].PhoneNumber) {
+      throw new Error('Could not find "PhoneNumber" in input data')
+    }
+    // store it sorrounded by quotes to prevent troubles with symbols like +
+    profile = '"' + options.iterationData[args.cursor.iteration].PhoneNumber + '"'
   })
 
   newman.on('request', (err, args) => {
-    if (err) return
+    if (err) {
+      throw new Error('Error on request: ' + err)
+    }
     // Skip requests not having a Test name. They could be secondary requests happening
     // within a test, but are not interesting for tracing
     if (args.item && !args.item.name) return
@@ -68,6 +83,9 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
   })
 
   newman.on('test', (err, args) => {
+    if (err) {
+      throw new Error('Error on test: ' + err)
+    }
     console.log(msg.end_of_test())
   })
 
