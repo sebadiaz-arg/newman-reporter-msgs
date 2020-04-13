@@ -1,7 +1,6 @@
 os = require('os')
 msg = require('./msg')
 
-
 /**
  * Reporter that outputs logs to stdout.
  *
@@ -43,14 +42,35 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
     // It is needed to first dump the request before separator to obtain the correct
     // length of the first request line
     req = msg.stringifyRequest(args.request)
-    let str = msg.separator("=")
+    let str = msg.end_of_section()
+    str += msg.crlf
     str += req
-    str += msg.separator("-")
+    str += msg.end_of_section()
+    str += msg.crlf
     str += msg.stringifyResponse(args.response)
-    str += msg.separator("*")
+    str += msg.end_of_section()
 
     console.log(str)
   })
+
+  newman.on('assertion', (err, args) => {
+    const key = err ? 'failed' : args.skipped ? 'skipped' : 'executed'
+
+    switch (key) {
+      case "failed":
+        console.log('Fail: ' + args.assertion + " - " + args.error.name + " - " + args.error.message)
+        break
+      case "executed":
+        console.log('Success: ' + args.assertion)
+        break
+    }
+
+  })
+
+  newman.on('test', (err, args) => {
+    console.log(msg.end_of_test())
+  })
+
 }
 
 exports.build
