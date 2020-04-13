@@ -1,6 +1,6 @@
 const REP_TIMES = 30
-const END_OF_SECTION_MARK = "-"
-const END_OF_TEST_MARK = "="
+const END_OF_SECTION_MARK = '-'
+const END_OF_TEST_MARK = '='
 
 var crlf = '\r\n';
 var n;
@@ -34,27 +34,27 @@ function end_of_test() {
 function stringifyRequest(req) {
   let req_method = req.method
 
-  let req_host = req.url.host.join(".")
+  let req_host = req.url.host.join('.')
   if (req.url.port) {
-    req_host = req_host + ":" + req.url.port
+    req_host = req_host + ':' + req.url.port
   }
 
-  let req_path = req.url.path.join("/")
+  let req_path = req.url.path.join('/')
 
-  let req_first_line = req_method + " /" + req_path + " HTTP/1.1"
+  let req_first_line = req_method + ' /' + req_path + ' HTTP/1.1'
 
   // Used to wrap the line with the proper number of cosmetic chars
   n = req_first_line.length
 
   let req_headers = req.headers.members
-  let req_body = ""
+  let req_body = ''
   if (req.body) {
     req_body = req.body.raw
   }
 
   let str = line(req_first_line)
   req_headers.forEach(h => {
-    str += line(h.key + ": " + h.value)
+    str += line(h.key + ': ' + h.value)
   });
 
   if (req_body) {
@@ -66,7 +66,7 @@ function stringifyRequest(req) {
 }
 
 function stringifyResponse(res) {
-  let res_first_line = "HTTP/1.1 " + res.code + " " + res.status
+  let res_first_line = 'HTTP/1.1 ' + res.code + ' ' + res.status
   let res_headers = res.headers.members
   
   let res_body = res.stream
@@ -76,7 +76,7 @@ function stringifyResponse(res) {
 
   let str = line(res_first_line)
   res_headers.forEach(h => {
-    str += line(h.key + ": " + h.value)
+    str += line(h.key + ': ' + h.value)
   });
 
   if (res_body) {
