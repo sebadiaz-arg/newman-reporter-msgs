@@ -27,6 +27,7 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
       let str = "ItemGroup: " + options.folder
       console.log(str)
     }
+    
   })
 
   newman.on('beforeItem', (err, args) => {
@@ -36,14 +37,19 @@ module.exports = function newmanMsgsReporter(newman, reporterOptions, options) {
   })
 
   newman.on('beforeIteration', (err, args) => {
-    if (!options.iterationData || options.iterationData.length === 0) {
-      throw new Error('Could not find iterationData')
+    phoneNumber = ''
+    if (options.iterationData && options.iterationData.length > 0 && options.iterationData[args.cursor.iteration].PhoneNumber) {
+      phoneNumber = options.iterationData[args.cursor.iteration].PhoneNumber
+    } else {
+      phoneNumber = options.environment.values.find(e => e.key == "PhoneNumber")
     }
-    if (!options.iterationData[0].PhoneNumber) {
-      throw new Error('Could not find "PhoneNumber" in input data')
+
+    if (!phoneNumber) {
+      throw new Error('Could not find "PhoneNumber" in either input data or environment')
     }
+
     // store it sorrounded by quotes to prevent troubles with symbols like +
-    profile = '"' + options.iterationData[args.cursor.iteration].PhoneNumber + '"'
+    profile = '"' + phoneNumber + '"'
   })
 
   newman.on('request', (err, args) => {
