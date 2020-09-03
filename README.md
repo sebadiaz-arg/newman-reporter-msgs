@@ -19,11 +19,11 @@ npm i -g newman
 ```
 
 ### Pack from sources and deploy
-Clone this repository locally (git clone https://github.com/sebadiaz-arg/newman-reporter-msgs), go inside its folder and run these commands (to make a .tgz tarball file and to install it in your system):
+Clone this repository locally (git clone https://github.com/sebadiaz-arg/newman-reporter-msgs), go inside its folder and run these commands:
 
 ```sh
-npm pack
-npm i -g newman-reporter-msgs-<version>.tgz
+npm pack    (to make a .tgz tarball file)
+npm i -g newman-reporter-msgs-<version>.tgz    (to install it in your system)
 ```
 
 ## Execute newman with this reporter (called "msgs")
